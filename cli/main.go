@@ -18,7 +18,7 @@ var (
 	frequency  = flag.Float64("frequency", 445.0, "Sine wave frequency")
 	sampleRate = flag.Float64("sample", 88.8, "Sine wave sample rate")
 	multiplier = flag.Float64("multiplier", 10, "Point multiplier")
-	length     = flag.Int64("length", 20, "Number of points to plot")
+	length     = flag.Int64("length", 250, "Number of points to plot")
 	outputFile = flag.String("file", "graph.png", "File to write graph to")
 )
 
