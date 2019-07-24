@@ -1,0 +1,3 @@
+[submodule ".ori-env"]
+	path = .ori-env
+	url = git@github.com:jspc/ori-env

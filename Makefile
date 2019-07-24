@@ -1,3 +1,7 @@
+include .ori-env/helm-charts/Makefile
+
+CIRCLE_SHA1 ?= local
+
 default: all
 
 all: service/sine-service.pb.go
