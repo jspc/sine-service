@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pw.jspc.ori.sineservice";
+option java_outer_classname = "SineServiceProto";
+
+package sineservice;
+
+// SineService is the interface exported by the service
+service SineService {
+  // GetGraph takes some simple sine input data and returns an encoded
+  // file with some optional error or debug data
+  rpc GetGraph(Sine) returns (SineGraph) {}
+}
+
+// Sine is the input needed to compute a sine wave
+message Sine {
+  double Frequency = 1;
+  double SampleRate = 2;
+  double Multiplier = 3;
+  int64 Length = 4;
+}
+
+// SineGraph is the an encoded file with optional debug text
+message SineGraph {
+  // Body contains a base64 encoded png
+  string Body = 1;
+
+  // Message is optional debug
+  string Message = 2;
+}
