@@ -16,6 +16,7 @@ func TestSine_Intialise(t *testing.T) {
 		{"Happy path", &Sine{Frequency: 1.0, SampleRate: 100.0, Multiplier: 8.0, Length: 5}, false, 0.06283},
 		{"Missing Freq", &Sine{SampleRate: 100.0, Multiplier: 8.0, Length: 5}, true, 0.0},
 		{"Missing SR", &Sine{Frequency: 100.0, Multiplier: 8.0, Length: 5}, true, 0.0},
+		{"Missing Multiplier is ignored, defaulted to 1", &Sine{Frequency: 1.0, SampleRate: 100.0, Length: 5}, false, 0.06283},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			defer func() {
