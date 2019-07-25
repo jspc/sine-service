@@ -13,10 +13,10 @@ clean:
 service/sine-service.pb.go:
 	protoc -I grpc/ grpc/sine-service.proto --go_out=plugins=grpc:service
 
-sine-service:
+sine-service: service/sine-service.pb.go
 	CGO_ENABLED=0 go build -o sine-service
 
 .PHONY: docker
-docker:
+docker: sine-service
 	docker build -t jspc/sine-service:latest -t jspc/sine-service:${CIRCLE_SHA1} .
 	docker push jspc/sine-service
