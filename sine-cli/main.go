@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"flag"
 	"io/ioutil"
+	"log"
 
 	pb "github.com/jspc/sine-service/service"
 	"google.golang.org/grpc"
@@ -20,16 +21,18 @@ var (
 	multiplier = flag.Float64("multiplier", 10, "Point multiplier")
 	length     = flag.Int64("length", 250, "Number of points to plot")
 	outputFile = flag.String("file", "graph.png", "File to write graph to")
+
+	verbose = flag.Bool("v", false, "Verbose output")
 )
 
 func main() {
 	flag.Parse()
 
-	realMain(*addr, *frequency, *sampleRate, *multiplier, *length, *outputFile)
+	realMain(*addr, *frequency, *sampleRate, *multiplier, *length, *outputFile, *verbose)
 }
 
 // realMain performs the brunt of the work; we split it to make testing simpler
-func realMain(addr string, freq, sample, multiplier float64, length int64, output string) {
+func realMain(addr string, freq, sample, multiplier float64, length int64, output string, verbose bool) {
 	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{})))
 	if err != nil {
 		panic(err)
@@ -47,6 +50,10 @@ func realMain(addr string, freq, sample, multiplier float64, length int64, outpu
 
 	if err != nil {
 		panic(err)
+	}
+
+	if verbose {
+		log.Printf("%#v", sg)
 	}
 
 	decoded, err := base64.StdEncoding.DecodeString(sg.Body)

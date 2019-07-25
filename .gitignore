@@ -1,4 +1,4 @@
 /sine-service
-cli/cli
+sine-cli/sine-cli
 graph.png
 .build
