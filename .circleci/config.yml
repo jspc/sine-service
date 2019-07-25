@@ -20,6 +20,7 @@ jobs:
           file: coverage.txt
 
   deploy:
+    <<: *config_docker
     steps:
     - checkout
     - run: git submodule update --init
@@ -27,29 +28,30 @@ jobs:
         docker_layer_caching: true
     - run: make docker
     - run:
-      name: Install awscli
-      command: |
-        set -axe
-        sudo apt-get update
-        sudo apt-get install python3-pip
-        sudo pip3 install awscli
+        name: Install awscli
+        command: |
+          set -axe
+          sudo apt-get update
+          sudo apt-get install python3-pip
+          sudo pip3 install awscli
     - run: make publish
     - run: make deploy
 
 workflows:
-  version: 2.1
+  version: 2
   build_and_deploy:
     jobs:
       - test:
-          context: BUILDS
+          context: BUILD
           filters:
             tags:
               only: /.*/
       - deploy:
-          context: BUILDS
+          context: BUILD
           requires:
-          - test
-          branches:
-            ignore: /.*/
-          tags:
-            only: /.*/
+            - test
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
