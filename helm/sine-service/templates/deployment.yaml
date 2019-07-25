@@ -1,0 +1,54 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "sine-service.fullname" . }}
+  labels:
+    app: {{ include "sine-service.name" . }}
+    chart: {{ include "sine-service.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "sine-service.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "sine-service.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+          - name: REDIS_MASTER
+            value: {{ .Values.redis.address }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

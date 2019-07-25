@@ -1,0 +1,10 @@
+apiVersion: v1
+appVersion: "0.1.0"
+description: |
+  Sine Service helm chart; including:
+    * gRPC ingress configuration
+    * redis connection
+
+  Note: this chart expects redis to already exist
+name: sine-service
+version: 0.3.0

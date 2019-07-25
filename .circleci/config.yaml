@@ -1,0 +1,55 @@
+config_docker: &config_docker
+  docker:
+    - image: circleci/golang:1.12
+  resource_class: small
+
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
+jobs:
+  test:
+    <<: *config_docker
+    steps:
+      - checkout
+      - run: go get -v -t -d ./...
+      - run: go vet -tests
+      - run:
+          name: Test
+          command: go test -v -race -coverprofile=coverage.txt -covermode=atomic
+      - codecov/upload:
+          file: coverage.txt
+
+  deploy:
+    steps:
+    - checkout
+    - run: git submodule update --init
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run: make docker
+    - run:
+      name: Install awscli
+      command: |
+        set -axe
+        sudo apt-get update
+        sudo apt-get install python3-pip
+        sudo pip3 install awscli
+    - run: make publish
+    - run: make deploy
+
+workflows:
+  version: 2.1
+  build_and_deploy:
+    jobs:
+      - test:
+          context: BUILDS
+          filters:
+            tags:
+              only: /.*/
+      - deploy:
+          context: BUILDS
+          requires:
+          - test
+          branches:
+            ignore: /.*/
+          tags:
+            only: /.*/
