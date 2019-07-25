@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/jspc/sine-service/branch/master/graph/badge.svg)](https://codecov.io/gh/jspc/sine-service)
+
 # Sine Service
 
 The sine service is a gRPC driven service which, given a set of inputs such as frequency and sample rate, will return a graph of the resultant sine wave.
