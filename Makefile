@@ -1,6 +1,7 @@
 include .ori-env/helm-charts/Makefile
 
 CIRCLE_SHA1 ?= local
+APP = sine-service
 
 default: all
 
