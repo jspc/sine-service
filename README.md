@@ -17,6 +17,10 @@ message SineGraph {
 }
 ```
 
+## Runbook
+
+For incident management, please see [doc/RUNBOOK.md](doc/RUNBOOK.md)
+
 ## Client
 
 A client is provided for this service, which may be installed by:
