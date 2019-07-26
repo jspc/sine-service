@@ -29,11 +29,12 @@ jobs:
     - run: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
     - run: CGO_ENABLED=0 go build
     - run: make docker
-    - run: helm init
+    - run: make .build/kubeconfig
+    - run: KUBECONFIG=.build/kubeconfig helm init --client-only
     - run: make publish
-    - run: make helm-repo-add
-    - run: make helm-repo-update
-    - run: make deploy
+    - run: KUBECONFIG=.build/kubeconfig make helm-repo-add
+    - run: KUBECONFIG=.build/kubeconfig make helm-repo-update
+    - run: KUBECONFIG=.build/kubeconfig make deploy
 
 workflows:
   version: 2
