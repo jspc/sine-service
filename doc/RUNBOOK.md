@@ -31,11 +31,11 @@ When a run finishes without resolution, escalate to Incident Management- regardl
 ### Sine Service refuses to start
 
 1. When `sine-service` logs show: `panic: dial tcp [::1]:6379: connect: connection refused`
- 1. This address is the default redis host
- 1. Check whether the helm chart contains a value against `redis.address`, correct and deploy if not
- 1. Goto next run
+    1. This address is the default redis host
+    1. Check whether the helm chart contains a value against `redis.address`, correct and deploy if not
+    1. Goto next run
 1. When `sine-service` cannot connect to its configured redis
- 1. Check helm deployments for redis, and re-run the environment pipeline if it does not exist
- 1. If it exists, but is in a failed state, delete it and re-run the pipeline
- 1. If it is in a successful state, check the redis service address matches what the chart is set to.
- 1. If you get this far without resolution, escalate
+    1. Check helm deployments for redis, and re-run the environment pipeline if it does not exist
+    1. If it exists, but is in a failed state, delete it and re-run the pipeline
+    1. If it is in a successful state, check the redis service address matches what the chart is set to.
+    1. If you get this far without resolution, escalate
