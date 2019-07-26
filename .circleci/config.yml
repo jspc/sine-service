@@ -1,6 +1,6 @@
 config_docker: &config_docker
   docker:
-    - image: jspc/ci-worker:1.3.0
+    - image: jspc/ci-worker:1.4.0
   resource_class: small
 
 version: 2.1
@@ -27,6 +27,7 @@ jobs:
     - setup_remote_docker:
         docker_layer_caching: true
     - run: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+    - run: CGO_ENABLED=0 go build
     - run: make docker
     - run: make publish
     - run: make helm-repo-add
