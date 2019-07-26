@@ -27,17 +27,15 @@ spec:
             value: {{ .Values.redis.address }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: grpc
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: grpc
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: grpc
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

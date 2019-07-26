@@ -7,4 +7,4 @@ description: |
 
   Note: this chart expects redis to already exist
 name: sine-service
-version: 0.3.0
+version: 0.6.0

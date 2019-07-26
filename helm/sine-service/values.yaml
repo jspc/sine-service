@@ -6,7 +6,7 @@ replicaCount: 3
 
 image:
   repository: jspc/sine-service
-  tag: stable
+  tag: latest
   pullPolicy: IfNotPresent
 
 ingress:

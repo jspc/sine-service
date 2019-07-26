@@ -8,12 +8,12 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: 8080
+      targetPort: {{ include "sine-service.fullname" . }}
       protocol: TCP
-      name: http
+      name: {{ include "sine-service.fullname" . }}
   selector:
     app: {{ include "sine-service.name" . }}
     release: {{ .Release.Name }}
